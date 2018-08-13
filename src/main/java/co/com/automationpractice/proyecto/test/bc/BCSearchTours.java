@@ -1,6 +1,5 @@
 package co.com.automationpractice.proyecto.test.bc;
 
-
 import co.com.automationpractice.proyecto.test.pages.ConfirmPage;
 import co.com.automationpractice.proyecto.test.pages.DetailPage;
 import co.com.automationpractice.proyecto.test.pages.HomePage;
@@ -13,8 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class BCGuestShop {
-    private static BCGuestShop bcGuestShop;
+public class BCSearchTours {
+    private static BCSearchTours bcSearchTours;
     private static String url;
     private WebDriver driver;
     private Utils utils;
@@ -25,7 +24,7 @@ public class BCGuestShop {
     Faker faker;
     private static Logger logger = LogManager.getLogger(BCGuestShop.class.getName());
 
-    private BCGuestShop(String url, String browser) {
+    private BCSearchTours(String url, String browser) {
         this.url = url;
         faker = new Faker();
         utils = new Utils();
@@ -33,11 +32,11 @@ public class BCGuestShop {
         this.driver = utils.getDriver();
     }
 
-    public static BCGuestShop getInstance(String url, String browser){
-        if(bcGuestShop == null) {
-            bcGuestShop = new BCGuestShop(url, browser);
+    public static BCSearchTours getInstance(String url, String browser){
+        if(bcSearchTours == null) {
+            bcSearchTours = new BCSearchTours(url, browser);
         }
-        return bcGuestShop;
+        return bcSearchTours;
     }
 
     public void searchDubaiTours() throws Exception {
@@ -77,21 +76,4 @@ public class BCGuestShop {
             throw e;
         }
     }
-
-    public void fillGuestForm() throws Exception {
-        logger.info("Filling the form");
-        try {
-            confirmPage = PageFactory.initElements(driver, ConfirmPage.class);
-
-            confirmPage.fillForm(faker.name().firstName(), faker.name().lastName(), faker.name().username() + "@fake.com", faker.phoneNumber().cellPhone(), faker.address().fullAddress(), faker.address().country());
-            confirmPage.clickConfirm();
-            Thread.sleep(2000);
-            driver.quit();
-        }catch (Exception e){
-            logger.error("Error filling the form as guest " + e.getMessage());
-            driver.quit();
-            throw e;
-        }
-    }
-
 }
